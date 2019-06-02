@@ -10,6 +10,8 @@
     <modules>
         <module>common-jdbc</module>
         <module>rest-jdbc-api</module>
+        <module>common-hibernate</module>
+        <module>rest-hibernate-api</module>
     </modules>
 
     <packaging>pom</packaging>
