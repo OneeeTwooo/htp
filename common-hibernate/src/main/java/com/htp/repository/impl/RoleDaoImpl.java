@@ -2,15 +2,22 @@ package com.htp.repository.impl;
 
 import com.htp.domain.Role;
 import com.htp.repository.RoleDao;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 @Qualifier("roleDao")
 public class RoleDaoImpl implements RoleDao {
+  @Autowired
+  @Qualifier("sessionFactory")
+  private SessionFactory sessionFactory;
+
   @Override
   public List<Role> getRolesByUserId(Long userId) {
     return null;
@@ -18,24 +25,44 @@ public class RoleDaoImpl implements RoleDao {
 
   @Override
   public List<Role> findAll() {
-    return null;
+    try (Session session = sessionFactory.openSession()) {
+      return session.createQuery("select tu from Roles tu", Role.class).getResultList();
+    }
   }
 
   @Override
   public Role findById(Long id) {
-    return null;
+    try (Session session = sessionFactory.openSession()) {
+      return session.find(Role.class, id);
+    }
   }
 
   @Override
-  public void delete(Long id) {}
+  public void delete(Long id) {
+    try (Session session = sessionFactory.openSession()) {
+      session.remove(findById(id));
+    }
+  }
 
   @Override
   public Role save(Role entity) {
-    return null;
+    try (Session session = sessionFactory.openSession()) {
+      Transaction transaction = session.getTransaction();
+      transaction.begin();
+      Long newRoleID = (Long) session.save(entity);
+      transaction.commit();
+      return session.find(Role.class, newRoleID);
+    }
   }
 
   @Override
   public Role update(Role entity) {
-    return null;
+    try (Session session = sessionFactory.openSession()) {
+      Transaction transaction = session.getTransaction();
+      transaction.begin();
+      session.saveOrUpdate(entity);
+      transaction.commit();
+      return session.find(Role.class, entity.getRoleId());
+    }
   }
 }

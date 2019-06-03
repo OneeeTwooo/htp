@@ -1,5 +1,6 @@
 package com.htp.repository.impl;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.htp.domain.User;
 import com.htp.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class UserDaoImpl implements UserDao {
   private static final String PHONE_NUMBER = "phone_number";
   private static final String USER_NAME = "user_name";
   private static final String USER_PASSWORD = "user_password";
+  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS")
   private static final String CREATED_WHEN = "created_when";
   private static final String MODIFY_WHEN = "modify_when";
   private static final String IS_DELETED = "is_deleted";

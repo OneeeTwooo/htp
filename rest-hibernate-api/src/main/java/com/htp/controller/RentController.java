@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/rest/rents")
+@RequestMapping(value = "/rest/hibernate/rents")
 public class RentController {
 
   @Autowired private RentDao rentDao;

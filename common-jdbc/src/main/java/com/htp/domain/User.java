@@ -14,6 +14,7 @@ public class User {
   private String phoneNumber;
   private String userName;
   private String userPassword;
+
   private Timestamp createdWhen;
   private Timestamp modifyWhen;
   private String isDeleted;

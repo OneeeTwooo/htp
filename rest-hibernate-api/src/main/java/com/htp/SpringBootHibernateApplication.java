@@ -1,5 +1,6 @@
 package com.htp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.htp.config.DatabaseConfig;
 import com.htp.config.JdbcTemplateConfig;
 import com.htp.config.swagger.SwaggerConfig;
@@ -31,6 +32,7 @@ import java.util.Properties;
     scanBasePackages = {"com.htp"},
     exclude = {JacksonAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 @Import({DatabaseConfig.class, JdbcTemplateConfig.class, SwaggerConfig.class})
+@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 public class SpringBootHibernateApplication extends SpringBootServletInitializer {
 
   @Autowired private Environment env;
