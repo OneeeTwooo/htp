@@ -47,6 +47,7 @@ public class UserDaoImpl implements UserDao {
     user.setCreatedWhen(resultSet.getTimestamp(CREATED_WHEN));
     user.setModifyWhen(resultSet.getTimestamp(MODIFY_WHEN));
     user.setIsDeleted(resultSet.getString(IS_DELETED));
+
     return user;
   }
 

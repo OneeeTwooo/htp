@@ -1,5 +1,7 @@
 package com.htp.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -40,6 +42,11 @@ public class User {
   @Column(name = "is_deleted")
   private String isDeleted;
 
+  @JsonBackReference
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "id_role")
+  private Role role;
+
   public User() {}
 
   public User(
@@ -51,7 +58,8 @@ public class User {
       String userPassword,
       Timestamp createdWhen,
       Timestamp modifyWhen,
-      String isDeleted) {
+      String isDeleted,
+      Role role) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.passportId = passportId;
@@ -61,6 +69,15 @@ public class User {
     this.createdWhen = createdWhen;
     this.modifyWhen = modifyWhen;
     this.isDeleted = isDeleted;
+    this.role = role;
+  }
+
+  public Role getRole() {
+    return role;
+  }
+
+  public void setRole(Role role) {
+    this.role = role;
   }
 
   public Long getUserId() {

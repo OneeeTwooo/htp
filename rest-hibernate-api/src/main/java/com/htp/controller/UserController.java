@@ -32,6 +32,7 @@ public class UserController {
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<List<User>> getUsers() {
+    List<User> users = userDao.findAll();
     return new ResponseEntity<>(userDao.findAll(), HttpStatus.OK);
   }
 
@@ -66,6 +67,8 @@ public class UserController {
     user.setCreatedWhen(new Timestamp(date.getTime()));
     user.setModifyWhen(new Timestamp(date.getTime()));
     user.setIsDeleted("NO");
+
+    user.setRole(roleDao.findById(request.getRoleId()));
 
     User savedUser = userDao.save(user);
 

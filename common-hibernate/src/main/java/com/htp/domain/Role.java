@@ -1,7 +1,12 @@
 package com.htp.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -18,16 +23,24 @@ public class Role {
   @Column(name = "type_role")
   private String typeRole;
 
-  //    @JsonBackReference
-  //    @ManyToOne(fetch = FetchType.EAGER)
-  //    @JoinColumn(name = "role_user_id")
-  //    private TestUser user;
+  @JsonManagedReference
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "role")
+  private Set<User> users = Collections.emptySet();
 
   public Role() {}
 
-  public Role(String nameRole, String typeRole) {
+  public Role(String nameRole, String typeRole, Set<User> users) {
     this.nameRole = nameRole;
     this.typeRole = typeRole;
+    this.users = users;
+  }
+
+  public Set<User> getUsers() {
+    return users;
+  }
+
+  public void setUsers(Set<User> users) {
+    this.users = users;
   }
 
   public Long getRoleId() {

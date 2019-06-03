@@ -15,6 +15,7 @@ public class UserCreateRequest {
   private Timestamp createdWhen;
   private Timestamp modifyWhen;
   private String isDeleted;
+  private Long roleId;
 
   public UserCreateRequest() {}
 
@@ -27,7 +28,8 @@ public class UserCreateRequest {
       String userPassword,
       Timestamp createdWhen,
       Timestamp modifyWhen,
-      String isDeleted) {
+      String isDeleted,
+      Long roleId) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.passportId = passportId;
@@ -37,6 +39,15 @@ public class UserCreateRequest {
     this.createdWhen = createdWhen;
     this.modifyWhen = modifyWhen;
     this.isDeleted = isDeleted;
+    this.roleId = roleId;
+  }
+
+  public Long getRoleId() {
+    return roleId;
+  }
+
+  public void setRoleId(Long roleId) {
+    this.roleId = roleId;
   }
 
   public String getFirstName() {
