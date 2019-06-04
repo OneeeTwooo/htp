@@ -15,10 +15,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -35,7 +38,7 @@ import java.util.Properties;
 @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 public class SpringBootHibernateApplication extends SpringBootServletInitializer {
 
-  @Autowired private Environment env;
+  @Autowired private DatabaseConfig databaseConfig;
 
   public static void main(String[] args) {
     SpringApplication.run(SpringBootHibernateApplication.class, args);
@@ -75,6 +78,13 @@ public class SpringBootHibernateApplication extends SpringBootServletInitializer
     em.setJpaProperties(getAdditionalProperties());
 
     return em;
+  }
+
+  @Bean(name = "transactionManager")
+  public PlatformTransactionManager dbTransactionManager() {
+    JpaTransactionManager transactionManager = new JpaTransactionManager();
+    transactionManager.setEntityManagerFactory(entityManagerFactory(databaseConfig.getDatasource()).getObject());
+    return transactionManager;
   }
 
   private Properties getAdditionalProperties() {

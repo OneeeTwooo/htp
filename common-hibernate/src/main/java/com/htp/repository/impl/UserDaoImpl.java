@@ -33,13 +33,16 @@ public class UserDaoImpl implements UserDao {
   public User findById(Long id) {
     try (Session session = sessionFactory.openSession()) {
       return session.find(User.class, id);
-      }
+    }
   }
 
   @Override
   public void delete(Long id) {
     try (Session session = sessionFactory.openSession()) {
-      session.remove(findById(id));
+      Transaction transaction = session.getTransaction();
+      transaction.begin();
+      session.delete(findById(id));
+      transaction.commit();
     }
   }
 
@@ -69,18 +72,20 @@ public class UserDaoImpl implements UserDao {
   public User findByLogin(String login) {
     try (Session session = sessionFactory.openSession()) {
 
-      //SQLQuery
+      // SQLQuery
 
-//            NativeQuery<TestUser> nativeQuery = session.createNativeQuery("select * from test_user", TestUser.class);
-//            nativeQuery.getSingleResult();
+      //            NativeQuery<TestUser> nativeQuery = session.createNativeQuery("select * from
+      // test_user", TestUser.class);
+      //            nativeQuery.getSingleResult();
 
-//            Query query = session.createQuery("" +
-//                    "select tu from TestUser tu where tu.userName = :login", TestUser.class);
-//            query.setParameter("login", login);
-//            return (TestUser)query.getSingleResult();
+      //            Query query = session.createQuery("" +
+      //                    "select tu from TestUser tu where tu.userName = :login",
+      // TestUser.class);
+      //            query.setParameter("login", login);
+      //            return (TestUser)query.getSingleResult();
 
-      TypedQuery<User> query = session.createQuery("" +
-              "select tu from User tu where tu.userName = :login", User.class);
+      TypedQuery<User> query =
+          session.createQuery("" + "select tu from User tu where tu.userName = :login", User.class);
       query.setParameter("login", login);
       return query.getSingleResult();
     }

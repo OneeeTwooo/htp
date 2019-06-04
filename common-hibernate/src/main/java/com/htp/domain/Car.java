@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collections;
+import java.time.Year;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "cars")
@@ -17,7 +16,7 @@ public class Car {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id_car", nullable = false)
+  @Column(name = "id_car")
   private Long carId;
 
   @Column(name = "gos_number")
@@ -28,9 +27,6 @@ public class Car {
 
   @Column(name = "model")
   private String model;
-
-  @Column(name = "year_out")
-  private Date yearOut;
 
   @Column(name = "type")
   private String type;
@@ -49,9 +45,6 @@ public class Car {
 
   @Column(name = "modify_when")
   private Timestamp modifyWhen;
-
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "car")
-  private Set<Rent> rents = Collections.emptySet();
 
   public Car() {}
 
@@ -85,14 +78,6 @@ public class Car {
 
   public void setModel(String model) {
     this.model = model;
-  }
-
-  public Date getYearOut() {
-    return yearOut;
-  }
-
-  public void setYearOut(Date yearOut) {
-    this.yearOut = yearOut;
   }
 
   public String getType() {
@@ -147,33 +132,21 @@ public class Car {
       String gosNumber,
       String mark,
       String model,
-      Date yearOut,
       String type,
       Float fullCost,
       Float costOneDay,
       String isDeleted,
       Timestamp createdWhen,
-      Timestamp modifyWhen,
-      Set<Rent> rents) {
+      Timestamp modifyWhen) {
     this.gosNumber = gosNumber;
     this.mark = mark;
     this.model = model;
-    this.yearOut = yearOut;
     this.type = type;
     this.fullCost = fullCost;
     this.costOneDay = costOneDay;
     this.isDeleted = isDeleted;
     this.createdWhen = createdWhen;
     this.modifyWhen = modifyWhen;
-    this.rents = rents;
-  }
-
-  public Set<Rent> getRents() {
-    return rents;
-  }
-
-  public void setRents(Set<Rent> rents) {
-    this.rents = rents;
   }
 
   @Override
@@ -185,7 +158,6 @@ public class Car {
         && Objects.equals(gosNumber, car.gosNumber)
         && Objects.equals(mark, car.mark)
         && Objects.equals(model, car.model)
-        && Objects.equals(yearOut, car.yearOut)
         && Objects.equals(type, car.type)
         && Objects.equals(fullCost, car.fullCost)
         && Objects.equals(costOneDay, car.costOneDay)
@@ -202,7 +174,6 @@ public class Car {
         gosNumber,
         mark,
         model,
-        yearOut,
         type,
         fullCost,
         costOneDay,

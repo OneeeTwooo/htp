@@ -11,16 +11,31 @@ public class DamageCreateRequest {
   private String isDeleted;
   private Timestamp createdWhen;
   private Timestamp modifyWhen;
+  private Long rentId;
 
   public DamageCreateRequest() {}
 
   public DamageCreateRequest(
-      String name, Float cost, String isDeleted, Timestamp createdWhen, Timestamp modifyWhen) {
+      String name,
+      Float cost,
+      String isDeleted,
+      Timestamp createdWhen,
+      Timestamp modifyWhen,
+      Long rentId) {
     this.name = name;
     this.cost = cost;
     this.isDeleted = isDeleted;
     this.createdWhen = createdWhen;
     this.modifyWhen = modifyWhen;
+    this.rentId = rentId;
+  }
+
+  public Long getRentId() {
+    return rentId;
+  }
+
+  public void setRentId(Long rentId) {
+    this.rentId = rentId;
   }
 
   public String getName() {
@@ -72,13 +87,14 @@ public class DamageCreateRequest {
         && Objects.equals(cost, that.cost)
         && Objects.equals(isDeleted, that.isDeleted)
         && Objects.equals(createdWhen, that.createdWhen)
-        && Objects.equals(modifyWhen, that.modifyWhen);
+        && Objects.equals(modifyWhen, that.modifyWhen)
+        && Objects.equals(rentId, that.rentId);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(name, cost, isDeleted, createdWhen, modifyWhen);
+    return Objects.hash(name, cost, isDeleted, createdWhen, modifyWhen, rentId);
   }
 
   @Override

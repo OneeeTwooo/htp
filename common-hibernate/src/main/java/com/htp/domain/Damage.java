@@ -1,12 +1,8 @@
 package com.htp.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "damage_cost")
@@ -32,9 +28,10 @@ public class Damage {
   @Column(name = "modify_when")
   private Timestamp modifyWhen;
 
-  @JsonBackReference
-  @ManyToMany(mappedBy = "damages", fetch = FetchType.EAGER)
-  private Set<Rent> rents = Collections.emptySet();
+  //  @JsonBackReference
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "id_rent")
+  private Rent rent;
 
   public Damage(
       String name,
@@ -42,13 +39,21 @@ public class Damage {
       String isDeleted,
       Timestamp createWhen,
       Timestamp modifyWhen,
-      Set<Rent> rents) {
+      Rent rent) {
     this.name = name;
     this.cost = cost;
     this.isDeleted = isDeleted;
     this.createWhen = createWhen;
     this.modifyWhen = modifyWhen;
-    this.rents = rents;
+    this.rent = rent;
+  }
+
+  public Rent getRent() {
+    return rent;
+  }
+
+  public void setRent(Rent rent) {
+    this.rent = rent;
   }
 
   public Damage() {}
@@ -99,14 +104,6 @@ public class Damage {
 
   public void setModifyWhen(Timestamp modifyWhen) {
     this.modifyWhen = modifyWhen;
-  }
-
-  public Set<Rent> getRents() {
-    return rents;
-  }
-
-  public void setRents(Set<Rent> rents) {
-    this.rents = rents;
   }
 
   @Override

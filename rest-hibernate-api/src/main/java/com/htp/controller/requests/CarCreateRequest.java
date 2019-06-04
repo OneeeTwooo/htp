@@ -3,6 +3,7 @@ package com.htp.controller.requests;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.sql.Timestamp;
+import java.time.Year;
 import java.util.Date;
 import java.util.Objects;
 
@@ -10,7 +11,6 @@ public class CarCreateRequest {
   private String gosNumber;
   private String mark;
   private String model;
-  private Date yearOut;
   private String type;
   private Float fullCost;
   private Float costOneDay;
@@ -24,7 +24,6 @@ public class CarCreateRequest {
       String gosNumber,
       String mark,
       String model,
-      Date yearOut,
       String type,
       Float fullCost,
       Float costOneDay,
@@ -34,7 +33,6 @@ public class CarCreateRequest {
     this.gosNumber = gosNumber;
     this.mark = mark;
     this.model = model;
-    this.yearOut = yearOut;
     this.type = type;
     this.fullCost = fullCost;
     this.costOneDay = costOneDay;
@@ -73,14 +71,6 @@ public class CarCreateRequest {
 
   public void setModel(String model) {
     this.model = model;
-  }
-
-  public Date getYearOut() {
-    return yearOut;
-  }
-
-  public void setYearOut(Date yearOut) {
-    this.yearOut = yearOut;
   }
 
   public String getType() {
@@ -131,7 +121,6 @@ public class CarCreateRequest {
     return Objects.equals(gosNumber, that.gosNumber)
         && Objects.equals(mark, that.mark)
         && Objects.equals(model, that.model)
-        && Objects.equals(yearOut, that.yearOut)
         && Objects.equals(type, that.type)
         && Objects.equals(fullCost, that.fullCost)
         && Objects.equals(costOneDay, that.costOneDay)
@@ -147,7 +136,6 @@ public class CarCreateRequest {
         gosNumber,
         mark,
         model,
-        yearOut,
         type,
         fullCost,
         costOneDay,

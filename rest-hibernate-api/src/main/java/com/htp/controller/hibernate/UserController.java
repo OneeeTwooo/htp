@@ -1,10 +1,13 @@
-package com.htp.controller;
+package com.htp.controller.hibernate;
 
 import com.htp.controller.requests.UserCreateRequest;
 import com.htp.domain.User;
 import com.htp.repository.RoleDao;
 import com.htp.repository.UserDao;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -32,7 +35,6 @@ public class UserController {
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<List<User>> getUsers() {
-    List<User> users = userDao.findAll();
     return new ResponseEntity<>(userDao.findAll(), HttpStatus.OK);
   }
 
@@ -82,14 +84,6 @@ public class UserController {
     @ApiResponse(code = 404, message = "User was not found"),
     @ApiResponse(code = 500, message = "Server error, something wrong")
   })
-  @ApiImplicitParams({
-    @ApiImplicitParam(
-        name = "X-Auth-Token",
-        value = "token",
-        required = true,
-        dataType = "string",
-        paramType = "header")
-  })
   @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.OK)
   public ResponseEntity<User> updateUser(
@@ -106,7 +100,9 @@ public class UserController {
     user.setModifyWhen(new Timestamp(date.getTime()));
     user.setIsDeleted(request.getIsDeleted());
 
-    userDao.save(user);
+    user.setRole(roleDao.findById(request.getRoleId()));
+
+    userDao.update(user);
 
     return new ResponseEntity<>(user, HttpStatus.OK);
   }

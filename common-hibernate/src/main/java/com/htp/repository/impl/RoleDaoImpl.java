@@ -26,7 +26,7 @@ public class RoleDaoImpl implements RoleDao {
   @Override
   public List<Role> findAll() {
     try (Session session = sessionFactory.openSession()) {
-      return session.createQuery("select tu from Roles tu", Role.class).getResultList();
+      return session.createQuery("select tu from Role tu", Role.class).getResultList();
     }
   }
 
@@ -40,7 +40,10 @@ public class RoleDaoImpl implements RoleDao {
   @Override
   public void delete(Long id) {
     try (Session session = sessionFactory.openSession()) {
-      session.remove(findById(id));
+      Transaction transaction = session.getTransaction();
+      transaction.begin();
+      session.delete(findById(id));
+      transaction.commit();
     }
   }
 

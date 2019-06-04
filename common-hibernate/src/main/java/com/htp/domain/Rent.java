@@ -19,9 +19,6 @@ public class Rent {
   @Column(name = "id_rent")
   private Long rentId;
 
-  @Column(name = "id_user")
-  private Long userId;
-
   @Column(name = "rental_start_date")
   private Timestamp rentalStartDate;
 
@@ -38,29 +35,33 @@ public class Rent {
   @JoinColumn(name = "id_rent_car")
   private Car car;
 
-  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinTable(
-      name = "damage_rent",
-      joinColumns = @JoinColumn(name = "id_rent"),
-      inverseJoinColumns = @JoinColumn(name = "id_damage"))
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "id_user")
+  private User user;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "id_rent")
+  // @JoinTable( name = "damage_rent",
+  //   joinColumns = @JoinColumn(name = "id_rent"),
+  //    inverseJoinColumns = @JoinColumn(name = "id_damage"))
   private Set<Damage> damages = Collections.emptySet();
 
   public Rent() {}
 
   public Rent(
-      Long userId,
       Timestamp rentalStartDate,
       Timestamp rentalFinishDate,
       Timestamp createdWhen,
       Timestamp modifyWhen,
       Car car,
+      User user,
       Set<Damage> damages) {
-    this.userId = userId;
     this.rentalStartDate = rentalStartDate;
     this.rentalFinishDate = rentalFinishDate;
     this.createdWhen = createdWhen;
     this.modifyWhen = modifyWhen;
     this.car = car;
+    this.user = user;
     this.damages = damages;
   }
 
@@ -70,14 +71,6 @@ public class Rent {
 
   public void setRentId(Long rentId) {
     this.rentId = rentId;
-  }
-
-  public Long getUserId() {
-    return userId;
-  }
-
-  public void setUserId(Long userId) {
-    this.userId = userId;
   }
 
   public Timestamp getRentalStartDate() {
@@ -112,14 +105,6 @@ public class Rent {
     this.modifyWhen = modifyWhen;
   }
 
-  public Set<Damage> getHibirnateDamages() {
-    return damages;
-  }
-
-  public void setHibirnateDamages(Set<Damage> damages) {
-    this.damages = damages;
-  }
-
   public Car getCar() {
     return car;
   }
@@ -128,22 +113,63 @@ public class Rent {
     this.car = car;
   }
 
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public Set<Damage> getDamages() {
+    return damages;
+  }
+
+  public void setDamages(Set<Damage> damages) {
+    this.damages = damages;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Rent rent = (Rent) o;
     return Objects.equals(rentId, rent.rentId)
-        && Objects.equals(userId, rent.userId)
         && Objects.equals(rentalStartDate, rent.rentalStartDate)
         && Objects.equals(rentalFinishDate, rent.rentalFinishDate)
         && Objects.equals(createdWhen, rent.createdWhen)
-        && Objects.equals(modifyWhen, rent.modifyWhen);
+        && Objects.equals(modifyWhen, rent.modifyWhen)
+        && Objects.equals(car, rent.car)
+        && Objects.equals(user, rent.user)
+        && Objects.equals(damages, rent.damages);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(rentId, userId, rentalStartDate, rentalFinishDate, createdWhen, modifyWhen);
+    return Objects.hash(
+        rentId, rentalStartDate, rentalFinishDate, createdWhen, modifyWhen, car, user, damages);
+  }
+
+  @Override
+  public String toString() {
+    return "Rent{"
+        + "rentId="
+        + rentId
+        + ", rentalStartDate="
+        + rentalStartDate
+        + ", rentalFinishDate="
+        + rentalFinishDate
+        + ", createdWhen="
+        + createdWhen
+        + ", modifyWhen="
+        + modifyWhen
+        + ", car="
+        + car
+        + ", user="
+        + user
+        + ", damages="
+        + damages
+        + '}';
   }
 }

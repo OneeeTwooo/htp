@@ -8,7 +8,6 @@ import java.util.Objects;
 public class RentCreateRequest {
   private Long userId;
   private Long carId;
-  private Long damageId;
   private Timestamp rentalStartDate;
   private Timestamp rentalFinishDate;
   private Timestamp createdWhen;
@@ -19,14 +18,12 @@ public class RentCreateRequest {
   public RentCreateRequest(
       Long userId,
       Long carId,
-      Long damageId,
       Timestamp rentalStartDate,
       Timestamp rentalFinishDate,
       Timestamp createdWhen,
       Timestamp modifyWhen) {
     this.userId = userId;
     this.carId = carId;
-    this.damageId = damageId;
     this.rentalStartDate = rentalStartDate;
     this.rentalFinishDate = rentalFinishDate;
     this.createdWhen = createdWhen;
@@ -47,14 +44,6 @@ public class RentCreateRequest {
 
   public void setCarId(Long carId) {
     this.carId = carId;
-  }
-
-  public Long getDamageId() {
-    return damageId;
-  }
-
-  public void setDamageId(Long damageId) {
-    this.damageId = damageId;
   }
 
   public Timestamp getRentalStartDate() {
@@ -96,7 +85,6 @@ public class RentCreateRequest {
     RentCreateRequest that = (RentCreateRequest) o;
     return Objects.equals(userId, that.userId)
         && Objects.equals(carId, that.carId)
-        && Objects.equals(damageId, that.damageId)
         && Objects.equals(rentalStartDate, that.rentalStartDate)
         && Objects.equals(rentalFinishDate, that.rentalFinishDate)
         && Objects.equals(createdWhen, that.createdWhen)
@@ -106,8 +94,7 @@ public class RentCreateRequest {
   @Override
   public int hashCode() {
 
-    return Objects.hash(
-        userId, carId, damageId, rentalStartDate, rentalFinishDate, createdWhen, modifyWhen);
+    return Objects.hash(userId, carId, rentalStartDate, rentalFinishDate, createdWhen, modifyWhen);
   }
 
   @Override

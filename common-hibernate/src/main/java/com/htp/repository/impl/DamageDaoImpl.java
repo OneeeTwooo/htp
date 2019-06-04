@@ -35,7 +35,10 @@ public class DamageDaoImpl implements DamageDao {
   @Override
   public void delete(Long id) {
     try (Session session = sessionFactory.openSession()) {
-      session.remove(findById(id));
+      Transaction transaction = session.getTransaction();
+      transaction.begin();
+      session.delete(findById(id));
+      transaction.commit();
     }
   }
 

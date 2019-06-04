@@ -1,7 +1,5 @@
 package com.htp.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -42,7 +40,7 @@ public class User {
   @Column(name = "is_deleted")
   private String isDeleted;
 
-  @JsonBackReference
+  //  @JsonBackReference
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "id_role")
   private Role role;
